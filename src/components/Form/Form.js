@@ -7,7 +7,7 @@ import { itemsSelector } from 'redux/contacts/contacts-selectors';
 
 export const Form = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
   const contacts = useSelector(itemsSelector);
   const dispatch = useDispatch();
 
@@ -16,8 +16,8 @@ export const Form = () => {
       case 'name':
         setName(value);
         break;
-      case 'number':
-        setNumber(value);
+      case 'phone':
+        setPhone(value);
         break;
 
       default:
@@ -28,11 +28,11 @@ export const Form = () => {
   const handlerSubmit = e => {
     e.preventDefault();
     const id = nanoid();
-    if (!name || !number) {
+    if (!name || !phone) {
       alert('Please, fill all fields');
       return;
     }
-    const inContacts = contacts.some(
+    const inContacts = contacts?.some(
       item => item.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -41,9 +41,9 @@ export const Form = () => {
       return;
     }
 
-    dispatch(addUser({ name, number, id }));
+    dispatch(addUser({ name, phone, id }));
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -66,8 +66,8 @@ export const Form = () => {
         <input
           className="input"
           type="tel"
-          name="number"
-          value={number}
+          name="phone"
+          value={phone}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           onChange={handlerChange}
